@@ -3,15 +3,39 @@ import './App.css';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
 const TwitterPage = () => {
-  const [textInput, setTextInput] = useState("");
-  const [numberInput, setNumberInput] = useState(0);
-
-  const handleTextInputChange = (event) => {
-    setTextInput(event.target.value);
+  const [hashtag, setHashtag] = useState("");
+  const [number, setNumber] = useState(0);
+  const [outputText, setOutputText] = useState('');
+  const handleHashtagChange = (event) => {
+    setHashtag(event.target.value);
   };
 
-  const handleNumberInputChange = (event) => {
-    setNumberInput(parseInt(event.target.value));
+  const handleNumberChange = (event) => {
+    setNumber(parseInt(event.target.value));
+  };
+  const handleProcess = async () => {
+    try {
+      // const response = await axios.post('/process', { text: inputText });
+      // const response = await fetch('http://127.0.0.1:5000/process', {
+      //               method: 'POST',
+      //               headers: {
+      //                   'Content-Type': 'application/json'
+      //               },
+      //               body: JSON.stringify({ hashtag, number })
+      //           });
+    
+      // // const { type, percentage } = response.data
+      // // const  type  = response.data
+      // const data = await response.json();
+      setOutputText('Positive');
+      // setOutputText(type)
+      // setNumber(data.proba)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleDelete = () => {
+    setOutputText('');
   };
 
   return (
@@ -33,8 +57,8 @@ const TwitterPage = () => {
           <input
           className="num-tweet"
             type="number"
-            value={numberInput}
-            onChange={handleNumberInputChange}
+            value={number}
+            onChange={handleNumberChange}
           />
         </label>
   <label className="hashlabel">
@@ -42,13 +66,20 @@ const TwitterPage = () => {
           <input
           className="hashtag"
             type="text"
-            value={textInput}
-            onChange={handleTextInputChange}
+            value={hashtag}
+            onChange={handleHashtagChange}
             placeholder = 'Enter your hashtag'
           />
-        </label>
-        
+        </label> 
+        <button className="buttonanalysis" onClick={handleProcess}>
+            Run analysis
+          </button>
   </div>
+  <div className="analysis">
+    <div className="result">Results</div>
+    <div className="output>">{outputText}</div>
+  </div>
+  <button className="clean" onClick={handleDelete}>Clear</button>
 </div>
   );
 }

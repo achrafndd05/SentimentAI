@@ -74,7 +74,9 @@ body {
   border-radius: 10px;
   background-color: #3242d6;
   color: white;
-  font-size: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .button:hover {
@@ -133,7 +135,9 @@ body {
   border-radius: 10px;
   background-color: #3242d6;
   color: white;
-  font-size: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
   cursor: pointer;
 }
 
@@ -207,12 +211,12 @@ body {
 
 .home:hover {
   cursor: pointer;
-  background-color: #0b156d
+  background-color: #3742a8
 }
 
 .second-page:hover {
   cursor: pointer;
-  background-color: #0b156d;
+  background-color: #3742a8;
 }
 
 .home:active {
@@ -261,7 +265,7 @@ body {
 }
 
 .numlabel {
-  margin-left: 480px;
+  margin-left: 240px;
   color: #1577cc;
   font-size: 15px;
   font-weight: bold;
@@ -298,4 +302,56 @@ body {
   font-size: 18px;
   font-weight: bold;
   color: white;
+}
+.analysis {
+  border-radius: 20px;
+  padding-top: 1px;
+  background-color: #e9e9e9;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 300px;
+  width: 1000px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.buttonanalysis{
+  margin-left: 50px;
+  bottom: 25px;
+  left: 320px;
+  height: 40px;
+  width: 150px;
+  border: none;
+  border-radius: 10px;
+  background-color: #3242d6;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.buttonanalysis:hover{
+  background-color:#1524ab;
+}
+.clean{
+  margin-left: 75%;
+  margin-top: 2%;
+  bottom: 25px;
+  left: 320px;
+  height: 40px;
+  width: 120px;
+  border: none;
+  border-radius: 10px;
+  background-color: #3242d6;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.clean:hover{
+  background-color:#1524ab;
+}
+.result{
+  margin-top: 20px;
+  margin-left: 30px;
+  font-size: 20px;
+  font-weight: bold;
 }
