@@ -264,9 +264,10 @@ def predict_tweet_sentiment(tweet):
     # Get predictions from the probabilities
     threshold = 0.5
     preds = np.where(probs[:, 1] > threshold, "positive", "negative")
+    
 
 #     print("no-negative tweets ratio ", preds.sum()/len(preds))
-    return preds
+    return preds, probs
 
 
 # Paths to load the model
@@ -291,7 +292,7 @@ filename = 'BERT_base_no_emojis_ArSAS22.pth'
 bert_classifier = torch.load(filename,map_location=torch.device('cpu'))
 
 
-
+print(type(bert_classifier))
 
 
 # here = os.path.dirname(os.path.abspath(__file__))
@@ -325,11 +326,16 @@ def process_text():
         if text is not None:
             # Process the text (perform any desired operations)
             processed_text = text.upper()
-            sentimento= str(predict_tweet_sentiment(text))
-            print("this is sentimento", sentimento)
+            senti= predict_tweet_sentiment(text)
+            sentimento , proba = senti
+
+            print("this is sentimento", str(sentimento))
+            print("this is proba:", str(proba))
             # Return the processed text as a response
             # return str(predict_tweet_sentiment(text))
-            response = {'result': sentimento}
+            response = {'result': str(sentimento),
+                        'proba':str(proba)
+                        }
 
             return jsonify(response)
         else:

@@ -37,7 +37,7 @@ const api = axios.create({
       const data = await response.json();
       setOutputText(data.result);
       // setOutputText(type)
-      // setPercentage('90%')
+      setPercentage(data.proba)
     } catch (error) {
       console.error(error);
     }
