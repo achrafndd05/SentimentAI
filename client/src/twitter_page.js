@@ -27,7 +27,7 @@ const TwitterPage = () => {
       // // const { type, percentage } = response.data
       // // const  type  = response.data
       // const data = await response.json();
-      setOutputText('Positive');
+      setOutputText('92 tweet');
       // setOutputText(type)
       // setNumber(data.proba)
     } catch (error) {
@@ -77,7 +77,27 @@ const TwitterPage = () => {
   </div>
   <div className="analysis">
     <div className="result">Results</div>
-    <div className="output>">{outputText}</div>
+    <div className="cont">
+    <div className="tagg">Tag</div>
+    <div className="tweet">Tweets</div>
+    </div>
+    <div className='linee'>___________________________________________</div>
+    
+    <br/>
+    <div className="cont">
+      <div className="Sentp">Positive : </div>
+      <div className="outputt">{outputText}</div>
+    </div>
+    <div className='linee'>___________________________________________</div>
+    <div className="contt">
+      <div className="Sentng">Negative : </div>
+      <div className="outputt">{outputText}</div>
+    </div>
+    <div className='linee'>___________________________________________</div>
+    <div className="contt">
+      <div className="Sentn">Neutral : </div>
+      <div className="outputt">{outputText}</div>
+    </div>
   </div>
   <button className="clean" onClick={handleDelete}>Clear</button>
 </div>

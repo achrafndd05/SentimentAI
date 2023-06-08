@@ -5,8 +5,13 @@ import './index.js';
 import { Link } from 'react-router-dom';
 const App = () => {
   const [inputText, setInputText] = useState('');
-  const [outputText, setOutputText] = useState('');
-  const [percentage, setPercentage] = useState('');
+  const [outputpos, setOutputPos] = useState('');
+  const [outputneg, setOutputNeg] = useState('');
+  const [outputnet, setOutputNet] = useState('');
+
+  const [percentpos, setPercentagepos] = useState('');
+  const [percentneg, setPercentageneg] = useState('');
+  const [percentnet, setPercentagenet] = useState('');
 
  
 const backendURL = 'http://127.0.0.1:5000'; // Replace with your backend URL
@@ -22,22 +27,25 @@ const api = axios.create({
       // const response = await axios.post('/process', { text: inputText });
 
 
-      const response = await fetch('http://127.0.0.1:5000/process', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ text:inputText })
-                });
+      // const response = await fetch('http://127.0.0.1:5000/process', {
+      //               method: 'POST',
+      //               headers: {
+      //                   'Content-Type': 'application/json'
+      //               },
+      //               body: JSON.stringify({ text:inputText })
+      //           });
       
       // const { type, percentage } = response.data
       // const  type  = response.data
 
 
-      const data = await response.json();
-      setOutputText(data.result);
-      // setOutputText(type)
-      setPercentage(data.proba)
+      // const data = await response.json();
+      setOutputPos('Positive');
+      setOutputNeg('Negative');
+      setOutputNet('Neutral');
+      setPercentagepos('97');
+      setPercentageneg('2');
+      setPercentagenet('1');
     } catch (error) {
       console.error(error);
     }
@@ -46,8 +54,13 @@ const api = axios.create({
   };
 
   const handleDelete = () => {
-    setOutputText('');
-    setPercentage('')
+    setOutputPos('');
+    setOutputNeg('');
+    setOutputNet('');
+    setPercentagepos('')
+    setPercentageneg('')
+    setPercentagenet('')
+
   };
 
   return (
@@ -86,12 +99,19 @@ const api = axios.create({
           </div>
           <div className='line'>__________________________________________________________________</div>
           <div className="output">
-            {outputText}
-            <div className='percentage-num'>{percentage}</div>
-              <button className="deleteButton" onClick={handleDelete}>
+            <div className='pos'>{outputpos}<div className='posper'>{percentpos}</div></div>
+            <div className='line'>__________________________________________________________________</div>
+           <div className='neg'>
+            {outputneg}
+            <div className='negper'>{percentneg}</div></div>
+            <div className='line'>__________________________________________________________________</div>
+            <div className='net'>
+              {outputnet}
+              <div className='netper'>{percentnet}</div>
+              </div>
+            <button className="deleteButton" onClick={handleDelete}>
                 Clear
               </button>
-            
           </div>
         </div>
       </div>
