@@ -182,8 +182,6 @@ body {
   font-weight: bold;
   color: white;
 }
-
-
 .home {
   background-color: #95afc6;
   border: none;
@@ -195,21 +193,17 @@ body {
   font-weight: bold;
   color: white;
 }
-
 .home:hover {
   cursor: pointer;
   background-color: #3742a8
 }
-
 .second-page:hover {
   cursor: pointer;
   background-color: #3742a8;
 }
-
 .home:active {
   background-color: #0b156d;
 }
-
 .hashtag {
   padding: 8px;
   padding-left: 12px;

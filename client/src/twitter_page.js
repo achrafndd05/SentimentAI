@@ -5,7 +5,10 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 const TwitterPage = () => {
   const [hashtag, setHashtag] = useState("");
   const [number, setNumber] = useState(0);
-  const [outputText, setOutputText] = useState('');
+  const [posnum, setPosNum] = useState('');
+  const [negnum, setNegNum] = useState('');
+  const [netnum, setNetNum] = useState('');
+
   const handleHashtagChange = (event) => {
     setHashtag(event.target.value);
   };
@@ -15,27 +18,29 @@ const TwitterPage = () => {
   };
   const handleProcess = async () => {
     try {
-      // const response = await axios.post('/process', { text: inputText });
-      // const response = await fetch('http://127.0.0.1:5000/process', {
-      //               method: 'POST',
-      //               headers: {
-      //                   'Content-Type': 'application/json'
-      //               },
-      //               body: JSON.stringify({ hashtag, number })
-      //           });
+      const response = await fetch('http://127.0.0.1:5000/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ hashtag, number })
+                });
     
-      // // const { type, percentage } = response.data
-      // // const  type  = response.data
-      // const data = await response.json();
-      setOutputText('92 tweet');
-      // setOutputText(type)
-      // setNumber(data.proba)
+      
+      const data = await response.json();
+      setPosNum(data.pos);
+      setNegNum(data.neg);
+      setNetNum(data.net);
+      
     } catch (error) {
       console.error(error);
     }
   };
   const handleDelete = () => {
-    setOutputText('');
+      setPosNum('');
+      setNegNum('');
+      setNetNum('');
+      
   };
 
   return (
@@ -86,17 +91,17 @@ const TwitterPage = () => {
     <br/>
     <div className="cont">
       <div className="Sentp">Positive : </div>
-      <div className="outputt">{outputText}</div>
+      <div className="outputt">{posnum}</div>
     </div>
     <div className='linee'>___________________________________________</div>
     <div className="contt">
       <div className="Sentng">Negative : </div>
-      <div className="outputt">{outputText}</div>
+      <div className="outputt">{negnum}</div>
     </div>
     <div className='linee'>___________________________________________</div>
     <div className="contt">
       <div className="Sentn">Neutral : </div>
-      <div className="outputt">{outputText}</div>
+      <div className="outputt">{netnum}</div>
     </div>
   </div>
   <button className="clean" onClick={handleDelete}>Clear</button>
