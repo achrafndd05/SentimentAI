@@ -3,6 +3,8 @@ import './App.css';
 import axios from 'axios';
 import './index.js';
 import { Link } from 'react-router-dom';
+import Chart from 'react-apexcharts';
+
 const App = () => {
   const [inputText, setInputText] = useState('');
   const [outputpos, setOutputPos] = useState('');
@@ -27,25 +29,25 @@ const api = axios.create({
       // const response = await axios.post('/process', { text: inputText });
 
 
-      // const response = await fetch('http://127.0.0.1:5000/process', {
-      //               method: 'POST',
-      //               headers: {
-      //                   'Content-Type': 'application/json'
-      //               },
-      //               body: JSON.stringify({ text:inputText })
-      //           });
+      const response = await fetch('http://127.0.0.1:5000/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text:inputText })
+                });
       
       // const { type, percentage } = response.data
       // const  type  = response.data
 
 
-      // const data = await response.json();
-      setOutputPos('Positive');
-      setOutputNeg('Negative');
-      setOutputNet('Neutral');
-      setPercentagepos('97');
-      setPercentageneg('2');
-      setPercentagenet('1');
+      const data = await response.json();
+      setOutputPos(data.result[0]);
+      setOutputNeg(data.result[1]);
+      setOutputNet(data.result[2]);
+      setPercentagepos(data.proba[0]);
+      setPercentageneg(data.proba[1]);
+      setPercentagenet(data.proba[2]);
     } catch (error) {
       console.error(error);
     }
@@ -62,6 +64,8 @@ const api = axios.create({
     setPercentagenet('')
 
   };
+
+
 
   return (
     <div>

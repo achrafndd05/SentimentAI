@@ -268,6 +268,248 @@ def predict_tweet_sentiment(tweet):
 
 #     print("no-negative tweets ratio ", preds.sum()/len(preds))
     return preds, probs
+import nltk
+from nltk.corpus import stopwords
+def text_preprocessing_1(s):
+    """
+    - Lowercase the sentence
+    - Change "'t" to "not"
+    - Remove "@name"
+    - Isolate and remove punctuations except "?"
+    - Remove other special characters
+    - Remove stop words except "not" and "can"
+    - Remove trailing whitespace
+    """
+    
+
+    nltk.download('stopwords')
+
+    # Now you can use the 'stopwords' variable
+
+    stop_words = stopwords.words('english')
+    s = s.lower()
+    # Change 't to 'not'
+    s = re.sub(r"\'t", " not", s)
+    # Remove @name
+    s = re.sub(r'(@.*?)[\s]', ' ', s)
+    # Isolate and remove punctuations except '?'
+    s = re.sub(r'([\'\"\.\(\)\!\?\\\/\,])', r' \1 ', s)
+    s = re.sub(r'[^\w\s\?]', ' ', s)
+    # Remove some special characters
+    s = re.sub(r'([\;\:\|•«\n])', ' ', s)
+    # Remove stopwords except 'not' and 'can'
+    s = " ".join([word for word in s.split()
+                  if word not in stopwords.words('english')
+                  or word in ['not', 'can']])
+    # Remove trailing whitespace
+    s = re.sub(r'\s+', ' ', s).strip()
+    
+    return s
+def text_preprocessing_2(text):
+    """
+    - Remove entity mentions (eg. '@united')
+    - Correct errors (eg. '&amp;' to '&')
+    @param    text (str): a string to be processed.
+    @return   text (Str): the processed string.
+    """
+    text = re.sub(r'https', '', text)
+    # Remove '@name'
+    text = re.sub(r'(@.*?)[\s]', ' ', text)
+
+    # Replace '&amp;' with '&'
+    text = re.sub(r'&amp;', '&', text)
+
+    # Remove trailing whitespace
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    return text
+
+from langdetect import detect
+import re
+import csv
+from getpass import getpass
+from time import sleep
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+
+def predict_tweet_sentiment(model,tweet):
+    df = pd.DataFrame([tweet])
+    df = df.rename(columns = {0:"tweet"})
+    print(df.tweet.values)
+    test_inputs, test_masks = preprocessing_for_bert(df.tweet.values)
+
+    # Create the DataLoader for our test set
+    test_dataset = TensorDataset(test_inputs, test_masks)
+    test_sampler = SequentialSampler(test_dataset)
+    test_dataloader = DataLoader(test_dataset, sampler=test_sampler, batch_size=32)
+    # Compute predicted probabilities on the test set
+    probs = bert_predict(model, test_dataloader)
+    print(probs)
+    max_index = np.argmax(probs)
+    
+    return  probs[max_index],max_index
+
+def get_tweet_data(card):
+    """Extract data from tweet card"""
+    username = card.find_element(By.XPATH,'.//span').text
+    try:
+        handle = card.find_element(By.XPATH,'.//span[contains(text(), "@")]').text
+    except NoSuchElementException:
+        return
+    
+    try:
+        postdate = card.find_element(By.XPATH,'.//time').get_attribute('datetime')
+    except NoSuchElementException:
+        return
+    
+    comment = card.find_element(By.XPATH,'/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[3]/div/section/div/div/div[1]/div/div/article/div/div/div[2]/div[2]/div[2]/div').text
+    text = comment
+
+
+    
+    tweet = text 
+    return tweet  
+
+
+def scrapping(hachtag,num):
+    hach = '#'+hachtag
+    # create instance of web driver
+
+    options = Options()
+    options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    driver = webdriver.Chrome(options=options)
+
+    # navigate to login screen
+    driver.get('https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZnIifQ%3D%3D%22%7D')
+    driver.maximize_window()
+    sleep(5)
+
+    # find search input and search for term
+    search_input_mail = driver.find_element(By.XPATH,'//input[@name="text"]')
+    search_input_mail.send_keys('mn.nedjah@gmail.com')
+    search_input_mail.send_keys(Keys.RETURN)
+    sleep(1)
+    #password
+    try:
+        search_input_password = driver.find_element(By.XPATH,'//input[@name="password"]')
+        search_input_password.send_keys('mahmoud2030')
+        search_input_password.send_keys(Keys.RETURN)
+        sleep(1)
+    except:
+        # find search input and search for term
+        search_input_us = driver.find_element(By.XPATH,'//input[@name="text"]')
+        search_input_us.send_keys('MnNazih')
+        search_input_us.send_keys(Keys.RETURN)
+        sleep(1)
+        search_input_password = driver.find_element(By.XPATH,'//input[@name="password"]')
+        search_input_password.send_keys('mahmoud2030')
+        search_input_password.send_keys(Keys.RETURN)
+        sleep(1)
+
+    # find search input and search for term
+    sleep(5)
+    search_input = driver.find_element(By.XPATH,'//input[@aria-label="Search query"]')
+    search_input.send_keys(hach)
+    search_input.send_keys(Keys.RETURN)
+    sleep(5)
+    # Locate the element by link text and click on it
+    element = driver.find_element(By.LINK_TEXT, 'Latest')
+    element.click()
+    scroll_attempt = 0
+
+    
+    data = []
+    tweet_ids = set()
+    last_position = driver.execute_script("return window.pageYOffset;")
+    scroll_attempt = 0
+    scrolling = True
+    sleep(5)
+
+    while scrolling:
+        page_cards = driver.find_elements(By.XPATH, '//article[@data-testid="tweet"]')
+        for card in page_cards[-15:]:
+            
+            tweet = get_tweet_data(card)  # Replace with appropriate code to extract tweet data
+            tweet_id = ''.join(tweet)
+            data.append(tweet)
+
+        driver.execute_script('window.scrollTo(0, document.body.scrollHeight);')
+
+        scroll_attempt += 1
+
+        if scroll_attempt >= num:
+            curr_position = driver.execute_script("return window.pageYOffset;")
+            scrolling = False
+        else:
+            sleep(2)  # Attempt another scroll
+
+    # Close the web driver
+    #driver.close()
+    print(data)
+    unique_list = list(set(data))
+    df = pd.DataFrame()
+    df['text']= unique_list
+    df['processed'] = df['text'].apply( text_preprocessing_2)
+    df['processed'] = df['processed'].apply( text_preprocessing_1)
+    i=[]
+    for text in df['text']:
+        if (detect(text) == 'ar'):
+            config,scores = arabic(text)
+            i.append(np.argmax(scores))
+        else:
+            config,scores = english(text)
+            i.append(np.argmax(scores))
+    df['sentiment']=i
+    df.to_csv('./output.csv', index=False)
+    neg = (df['sentiment'] == 1).sum()
+    pos = (df['sentiment'] == 0).sum()
+    net = (df['sentiment'] == 2).sum()
+
+    return pos,neg ,net
+ 
+from transformers import AutoModelForSequenceClassification
+from transformers import TFAutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoConfig
+import numpy as np
+from scipy.special import softmax
+
+def english(txt):
+
+    # Preprocess text (username and link placeholders)
+    MODEL = f"cardiffnlp/twitter-roberta-base-sentiment-latest"
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    config = AutoConfig.from_pretrained(MODEL)
+    
+    
+    #model.save_pretrained(MODEL)
+    #text = preprocesss(txt)
+    encoded_input = tokenizer(txt, return_tensors='pt')
+    output = english_model(**encoded_input)
+    scores = output[0][0].detach().numpy()
+    scores = softmax(scores)
+    
+    return config,scores
+
+def arabic(txt):
+
+    # Preprocess text (username and link placeholders)
+    MODEL = f"ALANZI/imamu_arabic_sentimentAnalysis"
+    tokenizer = AutoTokenizer.from_pretrained(MODEL)
+    config = AutoConfig.from_pretrained(MODEL)
+    # PT
+    model = AutoModelForSequenceClassification.from_pretrained(MODEL)
+    #model.save_pretrained(MODEL)
+    #   text = preprocess(text)
+    encoded_input = tokenizer(txt, return_tensors='pt')
+    output = arabic_model(**encoded_input)
+    scores = output[0][0].detach().numpy()
+    scores = softmax(scores)
+    
+    return config,scores
 
 
 # Paths to load the model
@@ -289,11 +531,10 @@ filename = 'BERT_base_no_emojis_ArSAS22.pth'
 
 
 # Loading the model
-bert_classifier = torch.load(filename,map_location=torch.device('cpu'))
+#bert_classifier = torch.load(filename,map_location=torch.device('cpu'))
 
-
-print(type(bert_classifier))
-
+english_model = torch.load('bert_classifier_model_finall.pth',map_location=torch.device('cpu'))
+arabic_model = torch.load('bert_classifier_model_finall_ar.pth',map_location=torch.device('cpu'))
 
 # here = os.path.dirname(os.path.abspath(__file__))
 # sys.path.append(here)
@@ -307,6 +548,9 @@ print(type(bert_classifier))
 print("model loaded")
 # Step 4: Close the file
 #f.close()
+
+
+
 
 
 # # Load centers for ab channel quantization used for rebalancing.
@@ -326,15 +570,37 @@ def process_text():
         if text is not None:
             # Process the text (perform any desired operations)
             processed_text = text.upper()
-            senti= predict_tweet_sentiment(text)
-            sentimento , proba = senti
+            #senti= predict_tweet_sentiment(text)
+            #sentimento , proba = senti
+            
+            sentiment=[]
+            percnt = []
+            if (detect(text) == 'ar'):
+                config,scores = arabic(text)
+                ranking = np.argsort(scores)
+                ranking = ranking[::-1]
+                for i in range(scores.shape[0]):
+                    l = config.id2label[ranking[i]]
+                    s = scores[ranking[i]]
+                    sentiment.append(l)
+                    percnt.append(np.round(float(s), 4))
+            
+            else:   
+                config,scores = english(text)
+                ranking = np.argsort(scores)
+                ranking = ranking[::-1]
+                for i in range(scores.shape[0]):
+                    l = config.id2label[ranking[i]]
+                    s = scores[ranking[i]]
+                    sentiment.append(l)
+                    percnt.append(np.round(float(s), 4))
 
-            print("this is sentimento", str(sentimento))
-            print("this is proba:", str(proba))
+            #print("this is sentimento", str(s))
+            #print("this is proba:", str(proba_eng))
             # Return the processed text as a response
             # return str(predict_tweet_sentiment(text))
-            response = {'result': str(sentimento),
-                        'proba':str(proba)
+            response = {'result': sentiment,
+                        'proba':percnt
                         }
 
             return jsonify(response)
@@ -342,6 +608,26 @@ def process_text():
             print("no text provideddddd")
             return 'No text provided.'
     
+
+@app.route('/process_hashtag', methods=['POST'])
+
+def process_hashtag():
+    if request.method == 'POST':
+        # Get the text data from the request
+        hashtag = request.json.get('hashtag')
+        number = request.json.get('number')
+        num_neg,num_net,num_pos = scrapping(hashtag,number)
+        print('hi',num_neg,num_net,num_pos)
+        
+        response = {'pos':str(num_pos) ,
+                    'neg':str(num_neg),
+                    'net':str(num_net)
+                        }
+        return jsonify(response)
+       
+
+
+
 
 if __name__ == '__main__':
     app.run()

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import './App.css';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-
+import { BrowserRouter as Router, Link, Route, Switch, HashRouter } from 'react-router-dom';
+import Donutchart from "./chart";
 const TwitterPage = () => {
   const [hashtag, setHashtag] = useState("");
   const [number, setNumber] = useState(0);
   const [posnum, setPosNum] = useState('');
   const [negnum, setNegNum] = useState('');
   const [netnum, setNetNum] = useState('');
+  const [chartData,setChartData]= useState([])
 
   const handleHashtagChange = (event) => {
     setHashtag(event.target.value);
@@ -18,12 +19,12 @@ const TwitterPage = () => {
   };
   const handleProcess = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:5000/process', {
+      const response = await fetch('http://127.0.0.1:5000/process_hashtag', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ hashtag, number })
+                    body: JSON.stringify({ hashtag:hashtag, number:number})
                 });
     
       
@@ -40,6 +41,7 @@ const TwitterPage = () => {
       setPosNum('');
       setNegNum('');
       setNetNum('');
+      setChartData([]);
       
   };
 
@@ -57,6 +59,7 @@ const TwitterPage = () => {
       </div>
 
   <div>
+    <div className="buttons">
   <label className="numlabel">
           Number of Tweets:
           <input
@@ -76,35 +79,44 @@ const TwitterPage = () => {
             placeholder = 'Enter your hashtag'
           />
         </label> 
-        <button className="buttonanalysis" onClick={handleProcess}>
+         <div className="but">
+       <div> <button className="buttonanalysis" onClick={handleProcess}>
             Run analysis
-          </button>
+          </button></div>
+          <div><button className="clean" onClick={handleDelete}>Clear</button></div>
+          </div>
+          </div>
   </div>
   <div className="analysis">
+    <div className="stat">
     <div className="result">Results</div>
     <div className="cont">
     <div className="tagg">Tag</div>
     <div className="tweet">Tweets</div>
     </div>
-    <div className='linee'>___________________________________________</div>
+    <div className='linee'>___________________________________</div>
     
     <br/>
     <div className="cont">
       <div className="Sentp">Positive : </div>
       <div className="outputt">{posnum}</div>
     </div>
-    <div className='linee'>___________________________________________</div>
+    <div className='linee'>___________________________________</div>
     <div className="contt">
       <div className="Sentng">Negative : </div>
       <div className="outputt">{negnum}</div>
     </div>
-    <div className='linee'>___________________________________________</div>
+    <div className='linee'>___________________________________</div>
     <div className="contt">
       <div className="Sentn">Neutral : </div>
       <div className="outputt">{netnum}</div>
     </div>
-  </div>
-  <button className="clean" onClick={handleDelete}>Clear</button>
+    </div>
+    {posnum !== '' && negnum !== '' && netnum !== '' && (
+         <div className="chart"><Donutchart series={[parseInt(posnum), parseInt(negnum), parseInt(netnum)]} /></div>
+         )}
+         </div>
+           
 </div>
   );
 }

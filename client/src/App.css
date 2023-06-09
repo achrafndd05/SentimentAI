@@ -8,9 +8,9 @@ body {
 
 .topBar {
   background-color: #1577cc;
-  height: 150px;
+  height: 120px;
   color: #fff;
-  padding: 20px;
+  padding: 15px;
   position: relative;
   display: flex;
   align-items: center;
@@ -18,16 +18,17 @@ body {
 }
 
 .websiteName {
-  margin-left: 150px;
+  margin-left: 100px;
+  margin-right: 100px;
   margin-top: 10px;
   float: left;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 700;
 }
 
 .pageTitle {
   text-align: center;
-  font-size: 40px;
+  font-size: 30px;
   font-weight: 550;
   flex-grow: 1;
 }
@@ -35,7 +36,7 @@ body {
 .content {
   display: flex;
   margin-top: 50px;
-  margin-left: 280px;
+  margin-left: 180px;
   width: 940px;
   height: 350px;
   box-shadow: 0px 2px 16px rgba(113, 112, 112, 0.273);
@@ -58,7 +59,7 @@ body {
   border-radius: 10px 0 0 10px;
   padding: 30px;
   width: 470px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: black;
 }
@@ -71,7 +72,7 @@ body {
   width: 150px;
   margin-top: 30px;
   border: none;
-  border-radius: 10px;
+  border-radius: 18px;
   background-color: #3242d6;
   color: white;
   font-size: 14px;
@@ -108,7 +109,7 @@ body {
 
 .title {
   color: black;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   margin-bottom: 20px;
 }
@@ -120,7 +121,7 @@ body {
   height: 40px;
   width: 120px;
   border: none;
-  border-radius: 10px;
+  border-radius: 18px;
   background-color: #3242d6;
   color: white;
   font-size: 14px;
@@ -172,24 +173,24 @@ body {
 .second-page {
   background-color: #95afc6;
   border: none;
-  height: 50px;
-  width: 200px;
+  height: 40px;
+  width: 160px;
   margin-left: 20px;
   margin-right: 30px;
-  margin-top: 50px;
+  margin-top: 40px;
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   color: white;
 }
 .home {
   background-color: #95afc6;
   border: none;
-  height: 50px;
-  width: 100px;
-  margin-top: 50px;
+  height: 40px;
+  width: 90px;
+  margin-top: 40px;
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   color: white;
 }
@@ -236,7 +237,7 @@ body {
   font-size: 16px;
   margin-left: 20px;
   margin-right: 30px;
-  margin-top: 70px;
+  margin-top: 0px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -248,24 +249,25 @@ body {
 .numlabel {
   margin-left: 240px;
   color: #1577cc;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
 }
 
 .hashlabel {
+  margin-top: 0px;
   color: #1577cc;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
 }
 
 .homehome {
   background-color: #0b156d;
   border: none;
-  height: 50px;
-  width: 100px;
-  margin-top: 50px;
+  height: 40px;
+  width: 90px;
+  margin-top: 40px;
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   color: white;
 
@@ -274,38 +276,40 @@ body {
 .second-pagetwit {
   background-color: #0b156d;
   border: none;
-  height: 50px;
-  width: 200px;
+  height: 40px;
+  width: 160px;
   margin-left: 20px;
   margin-right: 30px;
-  margin-top: 50px;
+  margin-top: 40px;
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   color: white;
 }
 .analysis {
+  display: flex;
   border-radius: 20px;
   padding-top: 1px;
   background-color: #fafafa;
-  margin-top: 40px;
+  margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
   height: 300px;
-  width: 1000px;
+  width: 900px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .buttonanalysis{
+  display: inline-block;
   margin-left: 50px;
   bottom: 25px;
   left: 320px;
   height: 40px;
-  width: 150px;
+  width: 130px;
   border: none;
-  border-radius: 10px;
+  border-radius: 18px;
   background-color: #3242d6;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -313,14 +317,15 @@ body {
   background-color:#1524ab;
 }
 .clean{
-  margin-left: 75%;
-  margin-top: 2%;
+  display: inline-block;
+  margin-left: 10%;
+  margin-top: 0px;
   bottom: 25px;
   left: 320px;
   height: 40px;
   width: 120px;
   border: none;
-  border-radius: 10px;
+  border-radius: 18px;
   background-color: #3242d6;
   color: white;
   font-size: 14px;
@@ -340,23 +345,23 @@ body {
 .Sentp{
   margin-top: 2%;
   flex: 0%;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: bold;
   color: #027c31;
 }
 .Sentng{
   margin-top: 2%;
   flex: 0%;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: bold;
   color: #bd1515;
 }
 .Sentn{
   margin-top: 2%;
   flex: 0%;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: bold;
-  color: #5e5e5e;
+  color: #008ffb;
 }
 .cont {
   margin-left: 30px;
@@ -403,36 +408,51 @@ body {
 }
 .pos{
   margin-top: 30px;
-  color: #027c31;
+  color: #4a4a4a;
   display: inline-block;
 
 }
 .neg{
   margin-top: 10px;
-  color: #bd1515;
+  color: #3b3b3b;
   display: inline-block;
 
 }
 .net{
   margin-top: 10px;
   margin-right: 20px;
+  color: #3b3b3b;
   display: inline-block;
 }
 .netper{
 color: #3b3b3b;
 display: inline-block;
-margin-left: 312px;
+margin-left: 345px;
 font-family: Arial, Helvetica, sans-serif;
 }
 .negper{
   color: #3b3b3b;
   display: inline-block;
-  margin-left: 305px;
+  margin-left: 300px;
   font-family: Arial, Helvetica, sans-serif;
 }
 .posper{
   color: #3b3b3b;
   display: inline-block;
-  margin-left: 305px;
+  margin-left: 300px;
   font-family: Arial, Helvetica, sans-serif;
+  }
+  .buttons{
+    display: flex;
+    margin-top: 40px;
+  }
+  .chart{
+    margin-top: 10px;
+    flex: 1;
+  }
+  .stat{
+    flex: 1;
+  }
+  .but{
+    display: flex
   }
